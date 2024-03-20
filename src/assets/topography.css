@@ -1,0 +1,290 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;800&family=Open+Sans:ital,wght@0,300;0,400;0,700;1,300&family=Play:ital,wght@0,300;0,400;0,600;0,700;1,400&display=swap');
+
+:root {
+    --bg: #000000;
+    --title: #ffffff;
+    --tab: #000000;
+    --tab-text: #ffffff;
+    --custom-tab-bg: #000000;
+    --custom-tab-text: #ffffff;
+    --custom-tab-bg-hover: #f11717;
+    --head-graph:#ffffff;
+    --head-h2: #ffffff;
+    --head-h3: #ffffff;
+    --custom-check-bg: #000000;
+    --custom-check-text: #ffffff;
+
+}
+
+body {
+    background-color: var(--bg); /* Set the background color */
+    margin: 0px 80px 0px 80px;
+}
+
+
+
+.container {
+    display: flex;
+    justify-content: space-between;
+}
+
+h1 {
+    font-size: 38px;
+    color: var(--title);
+    font-weight: bold;
+    text-align: center;
+    font-family: "Montserrat";
+}
+
+h2 {
+    font-size: 30px;
+    color: var(--head-h2);
+    font-weight: normal;
+    text-align: center;
+    font-family: "Play";
+
+}
+
+h3 {
+    font-size: 18px;
+    color:var(--head-h3);
+    font-weight: normal;
+    text-align: center;
+    font-family: "Play";
+}
+
+
+
+
+/* Style the tab labels */
+.custom-tab {
+    /* background-color: var(--custom-tab-bg); */
+    /* color: var(--custom-tab-text); */
+    border: none;
+    /* border-radius: 15px 15px 0 0; */
+    /* padding: 10px 20px; */
+    cursor: pointer;
+    text-align: center;
+    font-family: "Play";
+    font-size: large;
+    font-weight: bold;
+    transition: 0.5s;
+}
+
+.custom-tab:hover {
+    background-color: var(--custom-tab-bg-hover);
+    font-size: x-large;
+}
+
+
+/* Style the tab content */
+.custom-content {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 15px;
+    /* border: 1px solid #d1d1d1; */
+    border-radius: 0px;
+    background-color: var(--custom-tab-bg);
+    columns: var(--custom-tab-text);
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.2);
+    /* width: auto; */
+    align-items: center;
+    /* color: red; */
+}
+
+
+.dropdown-menu {
+    display: block;
+    margin: -10px auto 15px auto;
+    /* margin-left: auto; */
+    /* margin-right: auto; */
+    /* margin-bottom: 15px; */
+    min-width: 300px;
+    width: fit-content;
+    align-items: center;
+}
+
+
+
+/* table styling */
+
+#metrics-table {
+    background-color: #ffffff;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
+    text-align: center;
+    border-collapse: collapse;
+    min-width: 50%;
+    width: max-content;
+}
+
+/* Style table headers */
+#metrics-table th {
+    text-align: center;
+    background-color: #0074D9;
+    color: #ffffff;
+}
+
+#metrics-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#metrics-table tr:hover {
+    background-color: #008128;
+    font-size:larger;
+    /* color: #ffffff; */
+}
+
+/* Style table cells */
+#metrics-table td {
+    padding: 8px;
+    border: 1px solid #ccc;
+}
+
+
+
+#update-table {
+    background-color: #ffffff;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
+    text-align: center;
+    border-collapse: collapse;
+    width: 70%;
+    width: max-content;
+}
+
+/* Style table headers */
+#update-table th {
+    text-align: center;
+    background-color: #0074D9;
+    color: #ffffff;
+}
+
+#update-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+#update-table tr:hover {
+    background-color: #9154f3;
+    font-size:larger;
+}
+
+/* Style table cells */
+#update-table td {
+    padding: 8px;
+    border: 1px solid #ccc;
+}
+
+
+/* pane */
+
+.pane {
+    display: flex;
+    /* justify-content: space-between; */
+    /* align-items: flex-start; */
+    width:100%;
+    /* border: 1px solid #000000; */
+    text-align: center;
+    /* position: inherit; */
+    margin-bottom: 1%;
+    /* height: max-content; */
+}
+
+
+.pane.pane1 {
+    display: flex;
+    flex-direction: column;
+    width:40%;
+    text-align: center;
+    /* border: 1px solid #000000; */
+    /* margin-right: 5%; */
+}
+
+.pane.pane2{
+    display: flex;
+    flex-direction: column;
+    width:60%;
+    text-align: center;
+}
+
+
+/* Style the H1 headers in each pane */
+.pane h1 {
+    font-size: 30px;
+    /* color: #f5f3f4; */
+    font-weight: bold;
+    text-align: center;
+    font-family: "Montserrat";
+}
+
+.pane h2 {
+    font-size: 23px;
+    /* color: #f5f3f4; */
+    font-weight: normal;
+    text-align: center;
+    font-family: "Play";
+
+}
+
+.pane h3 {
+    font-size: 18px;
+    /* color: #f5f3f4; */
+    font-weight: normal;
+    text-align: center;
+    font-family: "Play";
+}
+
+/* .pane .graph {
+    height: 400px;
+} */
+
+
+.dash-checklist {
+    display: flex;
+    justify-content: center; /* Center the buttons horizontally */
+    align-items: center; /* Center the buttons vertically */
+}
+
+/* Style the label container (each toggle button) */
+.dash-checklist label {
+    display: flex;
+    padding: 8px;
+    border: 1px solid #d1d1d1;
+    border-radius: 0px;
+    background-color: var(--custom-check-bg);
+    color: var(--custom-check-text);
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    width: fit-content;
+    align-items: center;
+    margin: -10px 12px 20px 12px;
+    user-select: none;
+}
+
+.dash-checklist label::selection{
+    background-color: #000000;
+}
+
+
+/* Style the checkbox itself (hide it) */
+.dash-checklist input[type="checkbox"] {
+    /* display:none; */
+    background-color: #d1d1d1;
+    color: #000000;
+}
+
+/* Style the checkbox label when checked (active) */
+/* .dash-checklist input[type="checkbox"]:checked + label {
+    background-color: #000000; 
+    border: 1px solid #ffffff; 
+    color: #ffffff;
+} */
+
+/* Style the label text */
+/* .dash-checklist label span {
+    vertical-align: middle;
+} */
