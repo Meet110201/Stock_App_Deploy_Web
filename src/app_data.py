@@ -63,3 +63,46 @@ mae = last_row['MAE'].values[0]
 mse = last_row['MSE'].values[0]
 rmse = last_row['RMSE'].values[0]
 r2 = last_row['R2'].values[0]
+
+
+# %% [markdown]
+# DATA CLEANING AND SCALING
+
+# %%
+# dataset reading
+df_nse = pd.read_csv("data/TATACONSUM.NS_historical_data.csv")
+df = pd.read_csv("data/stock_data.csv")
+df_pred = pd.read_csv("data/lstm_predictions.csv")
+
+# %%
+# index formatting
+df_nse["Date"]=pd.to_datetime(df_nse.Date,format="%Y-%m-%d")
+df_nse.index=df_nse['Date']
+df_nse = df_nse.sort_index(ascending=False, axis=0)
+df_nse = df_nse.drop('Date', axis=1)
+
+df_pred["Date"]=pd.to_datetime(df_pred.Date,format="%Y-%m-%d")
+df_pred.index = df_pred['Date']
+df_pred = df_pred.sort_index(ascending=False, axis=0)
+df_pred = df_pred.drop('Date', axis=1)
+
+
+recent_data = df_pred.head(4)
+
+recent_data['Close'] = pd.to_numeric(recent_data['Close'], errors='coerce')
+recent_data['Predictions'] = pd.to_numeric(recent_data['Predictions'], errors='coerce')
+
+recent_data.loc[:, 'Close'] = recent_data['Close'].apply(lambda x: round(x,2))
+recent_data.loc[:, 'Predictions'] = recent_data['Predictions'].apply(lambda x: round(x,2))
+
+recent_data['Percentage Change'] = ((recent_data['Predictions'] - recent_data['Close']) / recent_data['Close']) * 100
+recent_data['Percentage Change'] = recent_data['Percentage Change'].apply(lambda x: round(x,2))
+recent_data['Date'] = recent_data.index
+
+# %%
+regression_metrics = {
+    'MAE': mae,
+    'MSE': mse,
+    'RMSE': rmse,
+    'R2': r2
+}

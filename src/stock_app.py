@@ -9,9 +9,6 @@ import app_data
 ## LOADING PYTHON LIBRARIES
 
 # %%
-# python Libraries
-import pandas as pd
-
 
 # dash Libraries
 import dash
@@ -23,47 +20,7 @@ from dash.dependencies import Input, Output
 # plotly Libraries
 import plotly.graph_objects as go
 
-# %% [markdown]
-# DATA CLEANING AND SCALING
 
-# %%
-# dataset reading
-df_nse = pd.read_csv("data/TATACONSUM.NS_historical_data.csv")
-df = pd.read_csv("data/stock_data.csv")
-df_pred = pd.read_csv("data/lstm_predictions.csv")
-
-# %%
-# index formatting
-df_nse["Date"]=pd.to_datetime(df_nse.Date,format="%Y-%m-%d")
-df_nse.index=df_nse['Date']
-df_nse = df_nse.sort_index(ascending=False, axis=0)
-df_nse = df_nse.drop('Date', axis=1)
-
-df_pred["Date"]=pd.to_datetime(df_pred.Date,format="%Y-%m-%d")
-df_pred.index = df_pred['Date']
-df_pred = df_pred.sort_index(ascending=False, axis=0)
-df_pred = df_pred.drop('Date', axis=1)
-
-
-recent_data = df_pred.head(4)
-
-recent_data['Close'] = pd.to_numeric(recent_data['Close'], errors='coerce')
-recent_data['Predictions'] = pd.to_numeric(recent_data['Predictions'], errors='coerce')
-
-recent_data.loc[:, 'Close'] = recent_data['Close'].apply(lambda x: round(x,2))
-recent_data.loc[:, 'Predictions'] = recent_data['Predictions'].apply(lambda x: round(x,2))
-
-recent_data['Percentage Change'] = ((recent_data['Predictions'] - recent_data['Close']) / recent_data['Close']) * 100
-recent_data['Percentage Change'] = recent_data['Percentage Change'].apply(lambda x: round(x,2))
-recent_data['Date'] = recent_data.index
-
-# %%
-regression_metrics = {
-    'MAE': app_data.mae,
-    'MSE': app_data.mse,
-    'RMSE': app_data.rmse,
-    'R2': app_data.r2
-}
 
 # %% [markdown]
 # # DASHBOARD
@@ -126,7 +83,7 @@ app.layout = html.Div([
         			    	{'name': 'Metric', 'id': 'Metric'},
         			    	{'name': 'Value', 'id': 'Value'}
         				],
-        				data=[{'Metric': metric, 'Value': value} for metric, value in regression_metrics.items()],
+        				data=[{'Metric': metric, 'Value': value} for metric, value in app_data.regression_metrics.items()],
                 	),
                     html.H2("Last Updates", className='custom-content'),
 					dash_table.DataTable(
@@ -137,7 +94,7 @@ app.layout = html.Div([
                             {'name': 'Predicted Close', 'id': 'Predictions'}, 
                             {'name': 'Percentage Change', 'id': 'Percentage Change'}, 
                         ],
-        				data=recent_data.to_dict('records'),
+        				data=app_data.recent_data.to_dict('records'),
                 	),
 				], className='pane pane1' ),
             
@@ -149,8 +106,8 @@ app.layout = html.Div([
 						figure={
 							"data":[
 								go.Scatter(
-									x=df_pred.index,
-									y=df_pred["Predictions"],
+									x=app_data.df_pred.index,
+									y=app_data.df_pred["Predictions"],
 									mode='lines'
 								)
 							],
@@ -201,8 +158,8 @@ app.layout = html.Div([
 					figure={
 						"data":[
 							go.Scatter(
-								x=df_nse.index,
-								y=df_nse["Volume"],
+								x=app_data.df_nse.index,
+								y=app_data.df_nse["Volume"],
 								mode='lines'
 							)
 						],
@@ -257,13 +214,13 @@ def update_graph_highlow(selected_dropdown):
     trace2 = []
     for stock in selected_dropdown:
         trace1.append(
-          go.Scatter(x=df[df["Stock"] == stock]["Date"],
-                     y=df[df["Stock"] == stock]["High"],
+          go.Scatter(x=app_data.df[app_data.df["Stock"] == stock]["Date"],
+                     y=app_data.df[app_data.df["Stock"] == stock]["High"],
                      mode='lines', opacity=0.7, 
                      name=f'High {dropdown[stock]}',textposition='bottom center'))
         trace2.append(
-          go.Scatter(x=df[df["Stock"] == stock]["Date"],
-                     y=df[df["Stock"] == stock]["Low"],
+          go.Scatter(x=app_data.df[app_data.df["Stock"] == stock]["Date"],
+                     y=app_data.df[app_data.df["Stock"] == stock]["Low"],
                      mode='lines', opacity=0.6,
                      name=f'Low {dropdown[stock]}',textposition='bottom center'))
     traces = [trace1, trace2]
@@ -293,8 +250,8 @@ def update_graph_closing(selected_dropdown_close):
     trace1=[]
     for stock in selected_dropdown_close:
         trace1.append(
-            go.Scatter(x=df_pred.index,
-                       y=df_pred[stock],
+            go.Scatter(x=app_data.df_pred.index,
+                       y=app_data.df_pred[stock],
                        mode = 'lines', opacity=0.7,
                        name=f'{dropdown[stock]} Closing ', textposition='bottom center'))
         
@@ -325,8 +282,8 @@ def update_graph_volume(selected_dropdown_value):
     trace1 = []
     for stock in selected_dropdown_value:
         trace1.append(
-          go.Scatter(x=df[df["Stock"] == stock]["Date"],
-                     y=df[df["Stock"] == stock]["Volume"],
+          go.Scatter(x=app_data.df[app_data.df["Stock"] == stock]["Date"],
+                     y=app_data.df[app_data.df["Stock"] == stock]["Volume"],
                      mode='lines', opacity=0.7,
                      name=f'Volume {dropdown[stock]}', textposition='bottom center'))
     traces = [trace1]
@@ -356,10 +313,10 @@ def update_output(selected_values):
     trace1 = []
     for stock in selected_values:
         trace1.append(
-          go.Scatter(x=df_nse.index,
-                       y=df_nse[stock],
-                       mode = 'lines', opacity=0.7,
-                       name=f'{dropdown[stock]} ', textposition='bottom center'))
+          go.Scatter(x=app_data.df_nse.index,
+                     y=app_data.df_nse[stock],
+                     mode = 'lines', opacity=0.7,
+                     name=f'{dropdown[stock]} ', textposition='bottom center'))
     traces = [trace1]
     data = [val for sublist in traces for val in sublist]
     figure = {'data': data, 
@@ -385,6 +342,3 @@ def update_output(selected_values):
 # %%
 if __name__ == '__main__':
     app.run_server(debug=True, use_reloader=False)
-
-
-# %%
