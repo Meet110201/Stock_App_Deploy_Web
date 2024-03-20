@@ -53,9 +53,9 @@ Run the stock_app.py script to launch the interactive dashboard built with Plotl
 
 ## Dashboard Screenshots
 
-![Dashboard-1](/images/Dashboard-1.png)
-![Dashboard-2](/images/Dashboard-2.png)
-![Dashboard-3](/images/Dashboard-3.png)
+![Dashboard-1](/src/images/Dashboard-1.png)
+![Dashboard-2](/src/images/Dashboard-2.png)
+![Dashboard-3](/src/images/Dashboard-3.png)
 
 
 ## Results and Insights
